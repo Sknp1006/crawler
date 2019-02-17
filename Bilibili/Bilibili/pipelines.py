@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import csv
 from .checkpipe import check_spider_pipeline
+from .items import FollowListItem, SpaceListItem, VideoInfoItem
 import sys
 # Define your item pipelines here
 #
@@ -22,11 +23,12 @@ class FollowlistPipeline(object):
 
     @check_spider_pipeline  #判断是否是需要执行的pipeline
     def process_item(self, item, spider):
-        follower = dict(item)
-        try:
-            self.file.write(follower['mid'] + ',' + follower['mid_url'] + ',' + follower['mid_name'] + '\n')
-        except Exception as e:
-            print("Pipeline发生错误")
+        if isinstance(item, FollowListItem):
+            follower = dict(item)
+            try:
+                self.file.write(follower['mid'] + ',' + follower['mid_url'] + ',' + follower['mid_name'] + '\n')
+            except Exception as e:
+                print("Pipeline发生错误")
         return item
 
     def open_spider(self, spider):
@@ -34,5 +36,4 @@ class FollowlistPipeline(object):
 
     def close_spider(self, spider):
         self.file.close()
-
 
