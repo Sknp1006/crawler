@@ -70,6 +70,7 @@ DEFAULT_REQUEST_HEADERS = {
 ITEM_PIPELINES = {
    # 'Bilibili.pipelines.BilibiliPipeline': 300,
    'Bilibili.pipelines.FollowlistPipeline': 300,
+   'Bilibili.pipelines.SpaceListPipeline' : 300
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
