@@ -4,8 +4,10 @@ import json
 from math import ceil
 from requests import get
 from ..items import followLsitItem
+from ..pipelines import FollowlistPipeline
 
 class FollowListSpider(scrapy.Spider):
+    pipeline = set([FollowlistPipeline, ])
     name = 'follow_list'
     usr_mid = '66124873'
     allowed_domains = ['bilibili.com']
@@ -18,6 +20,7 @@ class FollowListSpider(scrapy.Spider):
               ' SESSDATA': '70c078a8%2C1552700797%2Cdce86c21', ' bili_jct': '9fac6bbb3ea0d46fa8cad51c3a53ce66',
               ' bp_t_offset_66124873': '220275811618468531'}
     total_page = 0
+    page = 0
 
     def start_requests(self):
         get_page = get("http://api.bilibili.com/x/relation/followings?vmid={usr_mid}&pn={page_num}&ps=20".\

@@ -70,8 +70,8 @@ DEFAULT_REQUEST_HEADERS = {
 ITEM_PIPELINES = {
    # 'Bilibili.pipelines.BilibiliPipeline': 300,
    'Bilibili.pipelines.FollowlistPipeline': 300,
-   'Bilibili.pipelines.UpVideoPipeline': 310,
-   'Bilibili.pipelines.VideoInfoPipelie': 320
+   'Bilibili.pipelines.UpVideoPipeline': 300,
+   'Bilibili.pipelines.VideoInfoPipelie': 300
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

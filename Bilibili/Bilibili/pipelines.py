@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+import csv
+from .checkpipe import check_spider_pipeline
+import sys
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
@@ -10,14 +12,16 @@ class BilibiliPipeline(object):
     def process_item(self, item, spider):
         return item
 
+
 class FollowlistPipeline(object):
     def __init__(self):
         try:
             self.file = open('follow_list.csv', 'w', encoding='utf8')
         except Exception:
-            print('文件异常')
+            print('写入文件异常')
 
-    def process_item(self, item, follow_list):
+    @check_spider_pipeline  #判断是否是需要执行的pipeline
+    def process_item(self, item, spider):
         follower = dict(item)
         try:
             self.file.write(follower['mid'] + ',' + follower['mid_url'] + ',' + follower['mid_name'] + '\n')
@@ -25,21 +29,28 @@ class FollowlistPipeline(object):
             print("Pipeline发生错误")
         return item
 
-    def close_spider(self, follow_list):
+    def open_spider(self, spider):
+        print('===================FollowlistPipeline===================')
+
+    def close_spider(self, spider):
         self.file.close()
+
 
 class UpVideoPipeline(object):
     def __init__(self):
-        try:
-            self.file = open('follow_list.csv', 'r', encoding='utf8')
-        except Exception:
-            print('文件异常')
+        pass
 
-    def process_item(self, item, up_video):
+    @check_spider_pipeline  #判断是否是需要执行的pipeline
+    def process_item(self, item, spider):
+        print('===================执行UpVideoPipeline===================')
         return item
 
-    def close_spider(self, up_video):
-        self.file.close()
+    def open_spider(self, spider):
+        print('===================UpVideoPipeline======================')
+
+    def close_spider(self, spider):
+        pass
+
 
 class VideoInfoPipelie(object):
     # def __init__(self):

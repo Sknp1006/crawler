@@ -19,9 +19,20 @@ class followLsitItem(scrapy.Item):
     mid_name = scrapy.Field()
 
 class upVideoItem(scrapy.Item):
-    pass
+    mid_url = scrapy.Field()
+
+    aid = scrapy.Field()
+    aid_url = scrapy.Field()
+    aid_name = scrapy.Field()
 
 class videoInfoItem(scrapy.Item):
-    pass
+    video_like = scrapy.Field()
+    video_coin = scrapy.Field()
+    video_collection = scrapy.Field()
+    video_title = scrapy.Field()
+    video_label = scrapy.Field()
+
+    bullet_screen = scrapy.Field()
+    video_comment = scrapy.Field()
 
 
