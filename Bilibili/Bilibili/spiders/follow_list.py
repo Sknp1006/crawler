@@ -3,14 +3,14 @@ import scrapy
 import json
 from math import ceil
 from requests import get
-from ..items import followLsitItem
+from ..items import BilibiliItem
 from ..pipelines import FollowlistPipeline
 
 class FollowListSpider(scrapy.Spider):
-    pipeline = set([FollowlistPipeline, ])
     name = 'follow_list'
+    print('follow_list')
+    pipeline = set([FollowlistPipeline, ])
     usr_mid = '66124873'
-    allowed_domains = ['bilibili.com']
     # start_urls = ['http://bilibili.com/']
     cookie = {'_uuid': 'F8A866BC-1943-4CE9-4A31-932E5547B6CD24769infoc',
               ' buvid3': '356B65DB-7618-4FC3-BBBD-780D03868DF384624infoc', ' LIVE_BUVID': 'AUTO2515499735515018',
@@ -39,7 +39,7 @@ class FollowListSpider(scrapy.Spider):
         json_text = response.text
         text = json.loads(json_text)
         # 创建Item对象
-        item = followLsitItem()
+        item = BilibiliItem()
         for i in range(20):
             try:
                 mid = str(text['data']['list'][i]['mid'])
@@ -50,5 +50,8 @@ class FollowListSpider(scrapy.Spider):
                 item['mid_name'] = mid_name
             except IndexError:
                 pass
+            except KeyError:
+                pass
             # print(mid, mid_name, mid_url)
-            yield item
+            else:
+                yield item

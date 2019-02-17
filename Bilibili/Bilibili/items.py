@@ -10,22 +10,17 @@ import scrapy
 
 class BilibiliItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
-
-class followLsitItem(scrapy.Item):
+    #关注列表
     mid = scrapy.Field()
     mid_url = scrapy.Field()
     mid_name = scrapy.Field()
-
-class upVideoItem(scrapy.Item):
-    mid_url = scrapy.Field()
-
+    #up主空间
     aid = scrapy.Field()
     aid_url = scrapy.Field()
     aid_name = scrapy.Field()
-
-class videoInfoItem(scrapy.Item):
+    aid_count = scrapy.Field()
+    fans_count = scrapy.Field()
+    #视频信息
     video_like = scrapy.Field()
     video_coin = scrapy.Field()
     video_collection = scrapy.Field()

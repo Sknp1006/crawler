@@ -36,32 +36,3 @@ class FollowlistPipeline(object):
         self.file.close()
 
 
-class UpVideoPipeline(object):
-    def __init__(self):
-        pass
-
-    @check_spider_pipeline  #判断是否是需要执行的pipeline
-    def process_item(self, item, spider):
-        print('===================执行UpVideoPipeline===================')
-        return item
-
-    def open_spider(self, spider):
-        print('===================UpVideoPipeline======================')
-
-    def close_spider(self, spider):
-        pass
-
-
-class VideoInfoPipelie(object):
-    # def __init__(self):
-    #     self.file = open('follow_list.csv', 'r', encoding='utf8')
-    #
-    # def process_item(self, item, up_video):
-    #
-    #     return item
-    #
-    # def close_spider(self, up_video):
-    #     self.file.close()
-    pass
-
-
