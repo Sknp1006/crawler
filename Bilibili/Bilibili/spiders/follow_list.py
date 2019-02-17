@@ -11,7 +11,7 @@ from ..pipelines import FollowlistPipeline
 
 class FollowListSpider(scrapy.Spider):
     name = 'follow_list'
-    pipeline = set([FollowlistPipeline, ])
+    # pipeline = set([FollowlistPipeline, ])
     usr_mid = '66124873'
     # start_urls = ['http://bilibili.com/']
     cookie = {'_uuid': 'DA5FB876-B0DA-A08A-B5A6-3B53F11593B778782infoc', ' LIVE_BUVID': 'AUTO7515472104257092', ' sid': 'l1x674fb', ' fts': '1547267994', ' CURRENT_FNVAL': '16', ' rpdid': 'oqqspoqqpsdospmixqwww', ' stardustvideo': '1', ' UM_distinctid': '168473ea13a5b6-0be1ff6de870f7-3257487f-1fa400-168473ea13bb51', ' finger': 'edc6ecda', ' im_notify_type_66124873': '0', ' DedeUserID': '66124873', ' DedeUserID__ckMd5': '769f4fc4522a775e', ' SESSDATA': 'df5b8e46%2C1550480697%2C4a641311', ' bili_jct': '7913bf65326b9d976ae0d55ec8980054', ' buvid3': '04295C13-CC6E-443F-B86A-1403CCE0386D84602infoc', ' pgv_pvi': '1684714496', ' CURRENT_QUALITY': '112', ' bp_t_offset_66124873': '221318921734487900', ' _dfcaptcha': '057f8907f688ec54653cb21270f1e712'}
@@ -51,38 +51,38 @@ class FollowListSpider(scrapy.Spider):
                 pass
             else:
                 yield item
-    #         start_url = 'https://space.bilibili.com/ajax/member/getSubmitVideos?mid={mid}&pagesize=30&tid=0&page=1'.format(mid=item['mid'])
-    #         yield scrapy.Request(start_url, callback=self.second_process, cookies=self.cookie)
-    #
-    # #控制页数
-    # def second_process(self, response):
-    #     json_text = response.text
-    #     text = json.loads(json_text)
-    #     page = text['data']['pages']
-    #     pattern = re.compile(r'\d+$')
-    #     for i in range(1, page+1):
-    #         next_url = re.sub(pattern, str(i), response.url)
-    #         yield scrapy.Request(next_url, callback=self.space_list, cookies=self.cookie)
-    #
-    # #提取数据
-    # def space_list(self, response):
-    #     json_text = response.text
-    #     text = json.loads(json_text)
-    #     vlist = text['data']['vlist']
-    #     count = text['data']['count']
-    #     item = BilibiliItem()
-    #     for i in range(30):
-    #         try:
-    #             item['aid'] = str(vlist[i]['aid'])
-    #             item['aid_url'] = 'https://www.bilibili.com/video/av{aid}'.format(aid=item['aid'])
-    #             item['aid_name'] = vlist[i]['title']
-    #             item['aid_count'] = count
-    #             item['aid_author'] = vlist[i]['author']
-    #         except IndexError:
-    #             pass
-    #         except KeyError:
-    #             pass
-    #         except Exception:
-    #             pass
-    #         else:
-    #             yield item
+            start_url = 'https://space.bilibili.com/ajax/member/getSubmitVideos?mid={mid}&pagesize=30&tid=0&page=1'.format(mid=item['mid'])
+            yield scrapy.Request(start_url, callback=self.second_process, cookies=self.cookie)
+
+    #控制页数
+    def second_process(self, response):
+        json_text = response.text
+        text = json.loads(json_text)
+        page = text['data']['pages']
+        pattern = re.compile(r'\d+$')
+        for i in range(1, page+1):
+            next_url = re.sub(pattern, str(i), response.url)
+            yield scrapy.Request(next_url, callback=self.space_list, cookies=self.cookie)
+
+    #提取数据
+    def space_list(self, response):
+        json_text = response.text
+        text = json.loads(json_text)
+        vlist = text['data']['vlist']
+        count = text['data']['count']
+        item = SpaceListItem()
+        for i in range(30):
+            try:
+                item['aid'] = str(vlist[i]['aid'])
+                item['aid_url'] = 'https://www.bilibili.com/video/av{aid}'.format(aid=item['aid'])
+                item['aid_name'] = vlist[i]['title']
+                # item['aid_count'] = count
+                item['aid_author'] = vlist[i]['author']
+            except IndexError:
+                pass
+            except KeyError:
+                pass
+            except Exception:
+                pass
+            else:
+                yield item
