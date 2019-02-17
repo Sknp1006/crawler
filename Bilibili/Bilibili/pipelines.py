@@ -50,7 +50,7 @@ class SpaceListPipeline(object):
         if isinstance(item, SpaceListItem):
             sl = dict(item)
             try:
-                self.file.write('{1},{2},{3},{4}\n'.format(sl['aid'], sl['aid_url'], sl['aid_name'], sl['aid_author']))
+                self.file.write('%s,%s,%s,%s\n' %(sl['aid'], sl['aid_url'], sl['aid_name'], sl['aid_author']))
             except Exception as e:
                 print("Pipeline发生错误")
         return item
