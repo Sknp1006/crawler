@@ -31,11 +31,13 @@ class SpaceListItem(scrapy.Item):
 
 class VideoInfoItem(scrapy.Item):
     #视频信息
-    video_like = scrapy.Field()
-    video_coin = scrapy.Field()
-    video_collection = scrapy.Field()
-    video_title = scrapy.Field()
-    video_label = scrapy.Field()
+    video_view = scrapy.Field()  #播放量
+    video_like = scrapy.Field()  #点赞
+    video_coin = scrapy.Field()  #投币
+    video_collection = scrapy.Field()  #收藏
+    video_title = scrapy.Field()  #标题
+    video_label = scrapy.Field()  #标签
+    video_cid = scrapy.Field()  #弹幕地址
 
     bullet_screen = scrapy.Field()
     video_comment = scrapy.Field()

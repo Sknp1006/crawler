@@ -2,11 +2,12 @@
 import scrapy
 import json
 import re
-import time,datetime
+import time                    
 from math import ceil
 from requests import get
 from ..items import FollowListItem
 from ..items import SpaceListItem
+from ..items import VideoInfoItem
 
 
 class FollowListSpider(scrapy.Spider):
@@ -91,3 +92,21 @@ class FollowListSpider(scrapy.Spider):
                 print('页面发生错误')
             else:
                 yield item
+                video_info = 'https://api.bilibili.com/x/web-interface/view?aid=' + item['aid']
+                yield scrapy.Request(video_info, callback=self.third_process, cookies=self.cookie)
+            # video_url =
+
+    def third_process(self, response):
+        json_text = response.text
+        text = json.loads(json_text)
+        item = VideoInfoItem()
+        item['video_title'] = text['data']['title']
+        item['video_view'] = str(text['data']['stat']['view'])
+        item['video_collection'] = str(text['data']['stat']['favorite'])
+        item['video_coin'] = str(text['data']['stat']['coin'])
+        item['video_like'] = str(text['data']['stat']['like'])
+        item['video_cid'] = str(text['data']['cid'])
+        yield item
+
+        #获取弹幕
+        #获取评论
