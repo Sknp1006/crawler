@@ -3,6 +3,8 @@ import csv
 from .checkpipe import check_spider_pipeline
 from .items import FollowListItem, SpaceListItem, VideoInfoItem
 import sys
+
+
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
@@ -37,6 +39,7 @@ class FollowlistPipeline(object):
     def close_spider(self, spider):
         self.file.close()
 
+
 class SpaceListPipeline(object):
     def __init__(self):
         try:
@@ -50,9 +53,10 @@ class SpaceListPipeline(object):
         if isinstance(item, SpaceListItem):
             sl = dict(item)
             try:
-                self.file.write('%s,%s,%s,%s\n' %(sl['aid'], sl['aid_url'], sl['aid_name'], sl['aid_author']))
+                self.file.write('%s,%s,%s,%s,%s\n' \
+                                % (sl['aid'], sl['aid_url'], sl['aid_name'], sl['aid_author'], sl['aid_created']))
             except Exception as e:
-                print("Pipeline发生错误")
+                print("Pipeline发生错误", e)
         return item
 
     def open_spider(self, spider):
@@ -60,4 +64,3 @@ class SpaceListPipeline(object):
 
     def close_spider(self, spider):
         self.file.close()
-

@@ -26,6 +26,8 @@ class SpaceListItem(scrapy.Item):
     aid_count = scrapy.Field()
     aid_author = scrapy.Field()
     fans_count = scrapy.Field()
+    aid_created = scrapy.Field()
+    aid_description = scrapy.Field()
 
 class VideoInfoItem(scrapy.Item):
     #视频信息
