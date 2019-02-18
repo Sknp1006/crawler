@@ -55,7 +55,7 @@ USER_AGENT = random.choice(USER_AGENT_LIST)
 DOWNLOAD_TIMEOUT = 500
 BOT_NAME = 'AoiSolas'
 
-IMAGES_STORE = 'D:\meizi3'
+IMAGES_STORE = r'C:\Users\74001\Pictures\meizi3'
 
 SPIDER_MODULES = ['AoiSolas.spiders']
 NEWSPIDER_MODULE = 'AoiSolas.spiders'
