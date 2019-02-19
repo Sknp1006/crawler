@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c1292765-a77c-4cdd-bfda-47850a88388e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/Bilibili.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,20 +43,50 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Bilibili/spiders/video_info.csv">
           <provider selected="true" editor-type-id="csv-text-editor">
-            <state relative-caret-position="15813">
+            <state relative-caret-position="895">
               <caret line="753" column="51" selection-start-line="753" selection-start-column="51" selection-end-line="753" selection-end-column="51" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Bilibili/spiders/space_list.csv">
           <provider selected="true" editor-type-id="csv-text-editor">
-            <state relative-caret-position="27552">
+            <state relative-caret-position="895">
               <caret line="2920" column="86" selection-start-line="2920" selection-start-column="86" selection-end-line="2920" selection-end-column="86" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Bilibili/spiders/follow_list.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1097">
+              <caret line="23" selection-start-line="23" selection-end-line="23" />
+              <folding>
+                <element signature="e#24#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Bilibili/pipelines.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="786">
+              <caret line="90" selection-start-line="90" selection-end-line="90" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scrapy.cfg">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="231">
+              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
             </state>
           </provider>
         </entry>
@@ -67,6 +101,7 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="IdeDocumentHistory">
@@ -86,7 +121,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="581" />
     <option name="y" value="-17" />
     <option name="width" value="974" />
@@ -100,34 +135,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane" />
       <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Bilibili" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Bilibili" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Bilibili" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Bilibili" type="462c0819:PsiDirectoryNode" />
-              <item name="Bilibili" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Bilibili" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Bilibili" type="462c0819:PsiDirectoryNode" />
-              <item name="Bilibili" type="462c0819:PsiDirectoryNode" />
-              <item name="spiders" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Bilibili" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Bilibili" type="462c0819:PsiDirectoryNode" />
-              <item name="dbs" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -292,17 +301,17 @@
       <workItem from="1550476026660" duration="38000" />
       <workItem from="1550482032385" duration="575000" />
       <workItem from="1550488637857" duration="2824000" />
+      <workItem from="1550543088087" duration="157000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36614000" />
+    <option name="totallyTimeSpent" value="36771000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20095949" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20309168" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -375,13 +384,13 @@
     </entry>
     <entry file="file://$USER_HOME$/Desktop/test.py" />
     <entry file="file://$PROJECT_DIR$/Bilibili/spiders/follow_list.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
         <state relative-caret-position="291">
           <caret line="172" lean-forward="true" selection-start-line="172" selection-end-line="172" />
         </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Bilibili/middlewares.py">
@@ -404,23 +413,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Bilibili/pipelines.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-189">
-          <caret line="43" column="23" selection-start-line="43" selection-start-column="23" selection-end-line="43" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Bilibili/spiders/follow_list.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1113">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="e#24#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Bilibili/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1330">
@@ -428,20 +420,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Bilibili/spiders/video_info.csv">
+    <entry file="file://$PROJECT_DIR$/Bilibili/spiders/space_list.csv">
       <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="15813">
-          <caret line="753" column="51" selection-start-line="753" selection-start-column="51" selection-end-line="753" selection-end-column="51" />
+        <state relative-caret-position="895">
+          <caret line="2920" column="86" selection-start-line="2920" selection-start-column="86" selection-end-line="2920" selection-end-column="86" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Bilibili/spiders/space_list.csv">
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Bilibili/spiders/follow_list.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1097">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+          <folding>
+            <element signature="e#24#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Bilibili/pipelines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="786">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scrapy.cfg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Bilibili/spiders/video_info.csv">
       <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="27552">
-          <caret line="2920" column="86" selection-start-line="2920" selection-start-column="86" selection-end-line="2920" selection-end-column="86" />
+        <state relative-caret-position="895">
+          <caret line="753" column="51" selection-start-line="753" selection-start-column="51" selection-end-line="753" selection-end-column="51" />
         </state>
       </provider>
     </entry>
