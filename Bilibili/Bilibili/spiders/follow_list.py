@@ -116,29 +116,19 @@ class FollowListSpider(scrapy.Spider):
         bulletscreen_url = 'https://api.bilibili.com/x/v1/dm/list.so?oid=' + item['video_cid']
         comment_url = "https://api.bilibili.com/x/v2/reply?jsonp=jsonp&pn=1&type=1&oid=" + item['video_aid'] + "&sort=1&nohot=1"
         yield scrapy.Request(bulletscreen_url, callback=self.get_bulletscreen, cookies=self.cookie, meta={'aid': item['video_aid']})
-        yield scrapy.Request(comment_url, callback=self.get_comment, cookies=self.cookie)
+        # yield scrapy.Request(comment_url, callback=self.get_comment, cookies=self.cookie)
 
     # 获取弹幕
     def get_bulletscreen(self, response):
         aid = response.meta['aid']
         xml_text = response.body
-        i = 7
         item = BulletScreen()
-        while True:
-            try:
-                d = etree.fromstring(xml_text)[i]
-            except Exception:
-                continue
-            msg = d.text
-            attr = d.attrib['p']
-            item['message'] = msg
-            item['attr'] = attr
-            item['aid'] = aid
-            yield item
-            i += 1
+        item['bullentscreen'] = xml_text
+        item['aid'] = aid
+        yield item
 
     #获取评论
     def get_comment(self, response):
-        json_text = response.text
-        text = json.loads(json_text)
+        # json_text = response.text
+        # text = json.loads(json_text)
         pass

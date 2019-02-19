@@ -14,6 +14,7 @@ BOT_NAME = 'Bilibili'
 SPIDER_MODULES = ['Bilibili.spiders']
 NEWSPIDER_MODULE = 'Bilibili.spiders'
 
+# LOG_ENABLED = False
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'Bilibili (+http://www.yourdomain.com)'
@@ -25,7 +26,7 @@ ROBOTSTXT_OBEY = False
 FEED_EXPORT_ENCODING = 'utf-8'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 50000
+CONCURRENT_REQUESTS = 1000
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -39,7 +40,7 @@ CONCURRENT_REQUESTS = 50000
 # COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
-#TELNETCONSOLE_ENABLED = False
+TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
@@ -72,8 +73,7 @@ ITEM_PIPELINES = {
    'Bilibili.pipelines.FollowlistPipeline': 300,
    'Bilibili.pipelines.SpaceListPipeline' : 300,
    'Bilibili.pipelines.VideoInfoPipeline' : 300,
-   'Bilibili.pipelines.BulletScreenPipeline': 300,
-   'Bilibili.pipelines.VideoCommentpipeline': 300
+   'Bilibili.pipelines.BulletScreenPipeline': 200,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -91,7 +91,7 @@ AUTOTHROTTLE_ENABLED = True
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-#HTTPCACHE_ENABLED = True
+HTTPCACHE_ENABLED = True
 #HTTPCACHE_EXPIRATION_SECS = 0
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []

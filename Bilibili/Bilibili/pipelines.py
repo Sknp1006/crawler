@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-import csv
-from .checkpipe import check_spider_pipeline
+import os
+import xml.etree.cElementTree as ET
 from .items import FollowListItem
 from .items import SpaceListItem
 from .items import VideoInfoItem
 from .items import BulletScreen
-from .items import VideoComment
-import sys
-import os
+from multiprocessing import Pool
 
 
 # Define your item pipelines here
@@ -82,7 +80,10 @@ class VideoInfoPipeline(object):
             si = dict(item)
             try:
                 self.file.write('%s,%s,%s,%s,%s,%s,%s\n' \
-                % (si['video_cid'], si['video_aid'], si['video_title'], si['video_like'], si['video_coin'], si['video_collection'], si['video_view']))
+                                % (
+                                    si['video_cid'], si['video_aid'], si['video_title'], si['video_like'],
+                                    si['video_coin'],
+                                    si['video_collection'], si['video_view']))
             except Exception as e:
                 print("VideoInfoPipeline发生错误", e)
         return item
@@ -94,6 +95,44 @@ class VideoInfoPipeline(object):
         self.file.close()
 
 
+#使用lxml解析的方法
+# class BulletScreenPipeline(object):
+#     def __init__(self):
+#         self.pwd = os.getcwd()
+#         self.dir = 'bulletscreen\\'
+#         self.dir_path = self.pwd + '\\' + self.dir
+#         try:
+#             os.mkdir('bulletscreen')
+#         except Exception:
+#             pass
+#         # self.t = Thread(target=self.process_item)
+#         # self.t.start()
+#         self.t = Pool()
+#         self.t.apply_async(self.process_item)
+#
+#     def process_item(self, item, spider):
+#         if isinstance(item, BulletScreen):
+#             f = open(self.dir_path + item['aid'] + '.csv', 'w', buffering=-1, encoding='utf8')
+#             i = 7
+#             while True:
+#                 try:
+#                     d = etree.fromstring(item['bullentscreen'])[i]
+#                 except Exception:
+#                     break
+#                 msg = d.text
+#                 attr = d.attrib['p']
+#                 message = {'msg': msg}
+#                 f.write(attr + ',' + str(message) + '\n')
+#                 i += 1
+#             f.close()
+#         return item
+#
+#     def close_spider(self, spider):
+#         self.t.close()
+#         self.t.join()
+
+
+#使用xml.etree.cElementTree
 class BulletScreenPipeline(object):
     def __init__(self):
         self.pwd = os.getcwd()
@@ -103,16 +142,24 @@ class BulletScreenPipeline(object):
             os.mkdir('bulletscreen')
         except Exception:
             pass
+        # self.t = Thread(target=self.process_item)
+        # self.t.start()
+        self.t = Pool()
+        self.t.apply_async(self.process_item)
 
     def process_item(self, item, spider):
         if isinstance(item, BulletScreen):
-            self.f = open(self.dir_path + item['aid'] + '.csv', 'a', encoding='utf8')
-            message = {'msg': item['message']}
-            attr = item['attr']
-            self.f.write(attr + ',' + str(message) + '\n')
+            f = open(self.dir_path + item['aid'] + '.csv', 'w', buffering=-1, encoding='utf8')
+            d = ET.fromstring(item['bullentscreen'])
+            for i in d:
+                if i.get('p') is not None:
+                    msg = i.text
+                    attr = i.get('p')
+                    message = {'msg': msg}
+                    f.write(attr + ',' + str(message) + '\n')
+            f.close()
+        return item
 
     def close_spider(self, spider):
-        self.f.close()
-
-class VideoCommentpipeline(object):
-    pass
+        self.t.close()
+        self.t.join()
