@@ -142,8 +142,6 @@ class BulletScreenPipeline(object):
             os.mkdir('bulletscreen')
         except Exception:
             pass
-        # self.t = Thread(target=self.process_item)
-        # self.t.start()
         self.t = Pool()
         self.t.apply_async(self.process_item)
 
