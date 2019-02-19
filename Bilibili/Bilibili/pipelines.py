@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 import csv
 from .checkpipe import check_spider_pipeline
-from .items import FollowListItem, SpaceListItem, VideoInfoItem
+from .items import FollowListItem
+from .items import SpaceListItem
+from .items import VideoInfoItem
+from .items import BulletScreen
+from .items import VideoComment
 import sys
 import os
 
@@ -77,8 +81,8 @@ class VideoInfoPipeline(object):
         if isinstance(item, VideoInfoItem):
             si = dict(item)
             try:
-                self.file.write('%s,%s,%s,%s,%s,%s\n' \
-                % (si['video_cid'], si['video_title'], si['video_like'], si['video_coin'], si['video_collection'], si['video_view']))
+                self.file.write('%s,%s,%s,%s,%s,%s,%s\n' \
+                % (si['video_cid'], si['video_aid'], si['video_title'], si['video_like'], si['video_coin'], si['video_collection'], si['video_view']))
             except Exception as e:
                 print("VideoInfoPipeline发生错误", e)
         return item
@@ -88,3 +92,27 @@ class VideoInfoPipeline(object):
 
     def close_spider(self, spider):
         self.file.close()
+
+
+class BulletScreenPipeline(object):
+    def __init__(self):
+        self.pwd = os.getcwd()
+        self.dir = 'bulletscreen\\'
+        self.dir_path = self.pwd + '\\' + self.dir
+        try:
+            os.mkdir('bulletscreen')
+        except Exception:
+            pass
+
+    def process_item(self, item, spider):
+        if isinstance(item, BulletScreen):
+            self.f = open(self.dir_path + item['aid'] + '.csv', 'a', encoding='utf8')
+            message = {'msg': item['message']}
+            attr = item['attr']
+            self.f.write(attr + ',' + str(message) + '\n')
+
+    def close_spider(self, spider):
+        self.f.close()
+
+class VideoCommentpipeline(object):
+    pass

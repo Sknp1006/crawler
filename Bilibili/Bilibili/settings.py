@@ -25,7 +25,7 @@ ROBOTSTXT_OBEY = False
 FEED_EXPORT_ENCODING = 'utf-8'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 50000
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -71,7 +71,9 @@ ITEM_PIPELINES = {
    # 'Bilibili.pipelines.BilibiliPipeline': 300,
    'Bilibili.pipelines.FollowlistPipeline': 300,
    'Bilibili.pipelines.SpaceListPipeline' : 300,
-   'Bilibili.pipelines.VideoInfoPipeline' : 300
+   'Bilibili.pipelines.VideoInfoPipeline' : 300,
+   'Bilibili.pipelines.BulletScreenPipeline': 300,
+   'Bilibili.pipelines.VideoCommentpipeline': 300
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
