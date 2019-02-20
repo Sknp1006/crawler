@@ -25,11 +25,11 @@ class SpaceListItem(scrapy.Item):
     aid = scrapy.Field()
     aid_url = scrapy.Field()
     aid_name = scrapy.Field()
-    aid_count = scrapy.Field()
+    # aid_count = scrapy.Field()
     aid_author = scrapy.Field()
-    fans_count = scrapy.Field()
+    # fans_count = scrapy.Field()
     aid_created = scrapy.Field()
-    aid_description = scrapy.Field()
+    # aid_description = scrapy.Field()
 
 
 class VideoInfoItem(scrapy.Item):
@@ -39,10 +39,10 @@ class VideoInfoItem(scrapy.Item):
     video_coin = scrapy.Field()  #投币
     video_collection = scrapy.Field()  #收藏
     video_title = scrapy.Field()  #标题
-    video_label = scrapy.Field()  #标签
+    # video_label = scrapy.Field()  #标签
     video_cid = scrapy.Field()  #弹幕地址
     video_aid = scrapy.Field()
-    video_reply = scrapy.Field()  #评论数量
+    # video_reply = scrapy.Field()  #评论数量
 
 
 class BulletScreen(scrapy.Item):
@@ -51,7 +51,9 @@ class BulletScreen(scrapy.Item):
 
 
 class VideoComment(scrapy.Item):
-    pass
+    comment_aid = scrapy.Field()
+    comment_msg = scrapy.Field()
+
 
 
 
