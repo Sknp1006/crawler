@@ -1,0 +1,16 @@
+follow_list
+
+mid,           mid_url,      mid_name
+up主id，up主视频空间，up主昵称
+
+
+space_list
+
+aid,            aid_url,      aid_name,   aid_author,     aid_created
+视频id，视频播放地址，视频标题，视频作者昵称，视频创建时间
+
+
+video_info
+
+video_cid,   video_aid,   video_title,   video_like,   video_coin,   video_collection,   video_view
+弹幕id，       视频id，     视频标题，       点赞，         投币，             收藏，              播放量 
