@@ -1,0 +1,2 @@
+floor,      mid,     uname,     sex,    device,     like,      message,    date
+楼层， 用户id， 用户昵称， 性别， 设备， 评论赞数， 评论内容， 时间

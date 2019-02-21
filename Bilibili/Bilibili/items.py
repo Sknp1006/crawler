@@ -52,7 +52,18 @@ class BulletScreen(scrapy.Item):
 
 class VideoComment(scrapy.Item):
     comment_aid = scrapy.Field()
-    comment_msg = scrapy.Field()
+    comments = scrapy.Field()
+#     comment_aid = scrapy.Field()
+#     comment_msg = scrapy.Field()
+#     comment_mid = scrapy.Field()
+#     comment_uname = scrapy.Field()
+#     comment_sex = scrapy.Field()
+#     comment_message = scrapy.Field()
+#     comment_like = scrapy.Field()
+#     comment_floor = scrapy.Field()
+#     comment_date = scrapy.Field()
+
+
 
 
 
