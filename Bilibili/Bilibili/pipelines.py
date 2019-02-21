@@ -16,7 +16,6 @@ from multiprocessing import Pool
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-
 class BilibiliPipeline(object):
     def __init__(self):
         try:
@@ -45,8 +44,8 @@ class BilibiliPipeline(object):
         except Exception:
             pass
         #创建进程池
-        self.pool = Pool()
-        self.pool.apply_async(self.process_item)
+        # self.pool = Pool()
+        # self.pool.apply_async(self.process_item)
 
     def process_item(self, item, spider):
         if isinstance(item, FollowListItem):
@@ -68,7 +67,6 @@ class BilibiliPipeline(object):
             self.fl.write(follower['mid'] + ',' + follower['mid_url'] + ',' + follower['mid_name'] + '\n')
         except Exception as e:
             print("FollowlistPipeline发生错误", e)
-        return item
 
     # space_list
     def process_sl(self, item):
@@ -78,7 +76,6 @@ class BilibiliPipeline(object):
                           % (sl['aid'], sl['aid_url'], sl['aid_name'], sl['aid_author'], sl['aid_created']))
         except Exception as e:
             print("SpaceListPipeline发生错误", e)
-        return item
 
     # videoinfo
     def process_vi(self, item):
@@ -90,7 +87,6 @@ class BilibiliPipeline(object):
                               si['video_coin'], si['video_collection'], si['video_view']))
         except Exception as e:
             print("VideoInfoPipeline发生错误", e)
-        return item
 
     # bulletscreen
     def process_bs(self, item):
@@ -132,5 +128,5 @@ class BilibiliPipeline(object):
         self.fl.close()
         self.sl.close()
         self.vi.close()
-        self.pool.close()
-        self.pool.join()
+        # self.pool.close()
+        # self.pool.join()
