@@ -20,16 +20,16 @@ class FollowListItem(scrapy.Item):
     mid_name = scrapy.Field()
 
 
-class SpaceListItem(scrapy.Item):
+class GetSubmitVideos(scrapy.Item):
     #up主空间
     aid = scrapy.Field()
     aid_url = scrapy.Field()
     aid_name = scrapy.Field()
-    # aid_count = scrapy.Field()
+    aid_mid = scrapy.Field()
+    aid_length = scrapy.Field()
     aid_author = scrapy.Field()
-    # fans_count = scrapy.Field()
     aid_created = scrapy.Field()
-    # aid_description = scrapy.Field()
+    aid_description = scrapy.Field()
 
 
 class VideoInfoItem(scrapy.Item):
@@ -42,7 +42,10 @@ class VideoInfoItem(scrapy.Item):
     # video_label = scrapy.Field()  #标签
     video_cid = scrapy.Field()  #弹幕地址
     video_aid = scrapy.Field()
-    # video_reply = scrapy.Field()  #评论数量
+    video_p = scrapy.Field()  #视频分集
+    video_tname = scrapy.Field()  #视频分区
+    p_list = scrapy.Field()  #分集信息
+    mid = scrapy.Field()
 
 
 class BulletScreen(scrapy.Item):
@@ -53,15 +56,7 @@ class BulletScreen(scrapy.Item):
 class VideoComment(scrapy.Item):
     comment_aid = scrapy.Field()
     comments = scrapy.Field()
-#     comment_aid = scrapy.Field()
-#     comment_msg = scrapy.Field()
-#     comment_mid = scrapy.Field()
-#     comment_uname = scrapy.Field()
-#     comment_sex = scrapy.Field()
-#     comment_message = scrapy.Field()
-#     comment_like = scrapy.Field()
-#     comment_floor = scrapy.Field()
-#     comment_date = scrapy.Field()
+
 
 
 

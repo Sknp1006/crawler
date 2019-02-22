@@ -2,6 +2,8 @@
 ### Python template
 # Byte-compiled / optimized / DLL files
 .idea/
+getSubmitVideo/
+videoInfos/
 __pycache__/
 *.py[cod]
 *$py.class
@@ -114,3 +116,23 @@ venv.bak/
 out
 gen
 Bilibili/bulletscreen/
+*.csv
+Bilibili/comment/
+Bilibili/videoInfos/
+Bilibili_bullet/Bilibili_bullet/__init__.py
+Bilibili_bullet/Bilibili_bullet/items.py
+Bilibili_bullet/Bilibili_bullet/middlewares.py
+Bilibili_bullet/Bilibili_bullet/pipelines.py
+Bilibili_bullet/Bilibili_bullet/settings.py
+Bilibili_bullet/Bilibili_bullet/spiders/__init__.py
+Bilibili_bullet/Bilibili_bullet/spiders/bullet_screen.py
+Bilibili_bullet/scrapy.cfg
+Bilibili_comment/Bilibili_comment/__init__.py
+Bilibili_comment/Bilibili_comment/items.py
+Bilibili_comment/Bilibili_comment/middlewares.py
+Bilibili_comment/Bilibili_comment/pipelines.py
+Bilibili_comment/Bilibili_comment/settings.py
+Bilibili_comment/Bilibili_comment/spiders/__init__.py
+Bilibili_comment/Bilibili_comment/spiders/comment.py
+Bilibili_comment/scrapy.cfg
+Bilibili/Bilibili/spiders/__pycache__/follow_list.cpython-36.pyc

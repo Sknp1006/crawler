@@ -4,13 +4,13 @@ mid,           mid_url,      mid_name
 up主id，up主视频空间，up主昵称
 
 
-space_list
+getSubmitVideos（UP主mid为文件名）
 
-aid,            aid_url,      aid_name,   aid_author,     aid_created
-视频id，视频播放地址，视频标题，视频作者昵称，视频创建时间
+aid,            aid_url,      aid_name,   aid_mid,         aid_author,     aid_length      aid_created,       aid_description
+视频id，视频播放地址，视频标题，  UP主mid,     视频作者昵称，    视频时长       视频创建时间 ,         视频简介
 
 
 video_info
 
-video_cid,   video_aid,   video_title,   video_like,   video_coin,   video_collection,   video_view
-弹幕id，       视频id，     视频标题，       点赞，         投币，             收藏，              播放量 
+video_cid,   video_aid,   video_title,   video_tname，  video_like,   video_coin,   video_collection,   video_view， video_p，     p_list
+弹幕id，       视频id，     视频标题，      视频分区，       点赞，         投币，             收藏，               播放量          视频分P     分P列表                         
