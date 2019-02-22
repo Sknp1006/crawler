@@ -4,11 +4,10 @@ import json
 import time
 import re
 from math import ceil
-from requests import get
+import xml.etree.cElementTree as ET
 from ..items import FollowListItem
 from ..items import GetSubmitVideos
 from ..items import VideoInfoItem
-
 from ..items import BulletScreen
 from ..items import VideoComment
 
@@ -48,6 +47,8 @@ class FollowListSpider(scrapy.Spider):
                         item['mid'] = mid
                         item['mid_url'] = mid_url
                         item['mid_name'] = mid_name
+                    except IndexError:
+                        break
                     except Exception:
                         break
                     else:
@@ -83,13 +84,16 @@ class FollowListSpider(scrapy.Spider):
                 item['aid_length'] = vlist[i]['length']
                 item['aid_created'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(int(vlist[i]['created'])))
                 item['aid_description'] = {'description': vlist[i]['description']}
+            except IndexError:
+                break
             except Exception:
                 break
             else:
                 yield item
 
                 start_url = 'https://api.bilibili.com/x/web-interface/view?aid=' + item['aid']
-                yield scrapy.Request(start_url, callback=self.videoInfos, cookies=self.cookie, meta={'mid': item['aid_mid']})
+                yield scrapy.Request(start_url, callback=self.videoInfos, cookies=self.cookie,
+                                     meta={'mid': item['aid_mid']})
         # 继续当前UP主的下一页
         if int(cur_page) < int(total_page):
             next_url = 'https://space.bilibili.com/ajax/member/getSubmitVideos?mid={mid}&pagesize=30&tid=0&page={page_num}'.format(
@@ -119,34 +123,62 @@ class FollowListSpider(scrapy.Spider):
         item['p_list'] = p_list
         yield item
 
+        # 弹幕地址
+        bulletscreen_url = 'https://api.bilibili.com/x/v1/dm/list.so?oid=' + item['video_cid']
+        comments_url = "https://api.bilibili.com/x/v2/reply?jsonp=jsonp&pn={page}&type=1&oid={aid}&nohot=1".format(
+            page=1, aid=item['video_aid'])
+        yield scrapy.Request(bulletscreen_url, callback=self.get_bulletscreen, cookies=self.cookie, \
+                             meta={'aid': item['video_aid']})
+        yield scrapy.Request(comments_url, callback=self.get_comment, cookies=self.cookie,
+                             meta={'aid': item['video_aid']})
 
+    # 获取弹幕
+    def get_bulletscreen(self, response):
+        aid = response.meta['aid']
+        xml_text = response.body
+        item = BulletScreen()
+        d = ET.fromstring(xml_text)
+        item['aid'] = aid
+        for i in d:
+            if i.get('p') is not None:
+                msg = i.text
+                item['attr'] = i.get('p')
+                item['msg'] = {'msg': msg}
+                yield item
 
-    # 弹幕地址
-    # bulletscreen_url = 'https://api.bilibili.com/x/v1/dm/list.so?oid=' + item['video_cid']
-    # yield scrapy.Request(bulletscreen_url, callback=self.get_bulletscreen, cookies=self.cookie, \
-    #                      meta={'aid': item['video_aid']})
-    # # 获取弹幕
-    # def get_bulletscreen(self, response):
-    #     aid = response.meta['aid']
-    #     xml_text = response.body
-    #     item = BulletScreen()
-    #     item['bullentscreen'] = xml_text
-    #     item['aid'] = aid
-    #     yield item
-    #
-    # # 获取评论
-    # def get_comment(self, response):
-    #     json_text = response.text
-    #     item = VideoComment()
-    #     item['comment_aid'] = response.meta['aid']
-    #     item['comments'] = json_text
-    #     text = json.loads(json_text)
-    #     # 获取下一页
-    #     page = text['data']['page']['num']
-    #     t_page = text['data']['page']['count']
-    #     yield item
-    #     if int(page) < int(t_page):
-    #         next_url = "https://api.bilibili.com/x/v2/reply?jsonp=jsonp&pn={page}&type=1&oid={aid}&nohot=1".format(
-    #             page=str(int(page) + 1), aid=response.meta['aid'])
-    #         yield scrapy.Request(next_url, callback=self.get_comment, cookies=self.cookie,
-    #                              meta={'aid': response.meta['aid']})
+    # 获取评论
+    def get_comment(self, response):
+        json_text = response.text
+        text = json.loads(json_text)
+        # 处理json文件
+        if text['message'] == '0':
+            if text['data']['replies'] is not None:
+                item = VideoComment()
+                item['com_aid'] = response.meta['aid']
+                for i in range(20):
+                    try:
+                        item['com_mid'] = text['data']['replies'][i]['member']['mid']
+                        item['com_uname'] = text['data']['replies'][i]['member']['uname']
+                        item['com_sex'] = text['data']['replies'][i]['member']['sex']
+                        item['com_message'] = {'msg': text['data']['replies'][i]['content']['message']}
+                        item['com_like'] = text['data']['replies'][i]['like']
+                        item['com_floor'] = text['data']['replies'][i]['floor']
+                        item['com_date'] = time.strftime("%Y-%m-%d %H:%M:%S",
+                                                         time.localtime(int(text['data']['replies'][i]['ctime'])))
+                        item['com_device'] = text['data']['replies'][i]['content']['device']
+                    except IndexError:
+                        break
+                    except Exception:
+                        break
+                    else:
+                        yield item
+
+                # 获取下一页
+                page = text['data']['page']['num']
+                count = text['data']['page']['count']
+                total_page = ceil(int(count) / 20)
+                if int(page) < int(total_page):
+                    next_url = "https://api.bilibili.com/x/v2/reply?jsonp=jsonp&pn={page}&type=1&oid={aid}&nohot=1".format(
+                        page=str(int(page) + 1), aid=response.meta['aid'])
+                    yield scrapy.Request(next_url, callback=self.get_comment, cookies=self.cookie,
+                                         meta={'aid': response.meta['aid']})

@@ -50,12 +50,21 @@ class VideoInfoItem(scrapy.Item):
 
 class BulletScreen(scrapy.Item):
     aid = scrapy.Field()
-    bullentscreen = scrapy.Field()
+    attr = scrapy.Field()
+    msg = scrapy.Field()
 
 
 class VideoComment(scrapy.Item):
-    comment_aid = scrapy.Field()
-    comments = scrapy.Field()
+    com_aid = scrapy.Field()
+    com_mid = scrapy.Field()
+    com_uname = scrapy.Field()
+    com_sex = scrapy.Field()
+    com_message = scrapy.Field()
+    com_like = scrapy.Field()
+    com_floor = scrapy.Field()
+    com_date = scrapy.Field()
+    com_device = scrapy.Field()
+
 
 
 

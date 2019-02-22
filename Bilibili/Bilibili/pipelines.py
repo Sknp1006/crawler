@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import json
-import time
 import xml.etree.cElementTree as ET
 from .items import FollowListItem
 from .items import GetSubmitVideos
@@ -28,15 +26,15 @@ class BilibiliPipeline(object):
         # 创建文件夹
         pwd = os.getcwd()
         self.gsv_path = pwd + '\\getSubmitVideos\\'
-        self.com_path = pwd + '\\comment\\'
-        self.bs_path = pwd + '\\bulletscreen\\'
+        self.com_path = pwd + '\\comments\\'
+        self.bs_path = pwd + '\\bulletScreen\\'
         self.vi_path = pwd + '\\videoInfos\\'
         try:
             os.mkdir('bulletscreen')
         except Exception:
             pass
         try:
-            os.mkdir('comment')
+            os.mkdir('comments')
         except Exception:
             pass
         try:
@@ -55,10 +53,10 @@ class BilibiliPipeline(object):
             self.process_gsv(item)
         elif isinstance(item, VideoInfoItem):
             self.process_vi(item)
-        # elif isinstance(item, BulletScreen):
-        #     self.process_bs(item)
-        # elif isinstance(item, VideoComment):
-        #     self.process_vc(item)
+        elif isinstance(item, BulletScreen):
+            self.process_bs(item)
+        elif isinstance(item, VideoComment):
+            self.process_vc(item)
         return item
 
     # follow_list
@@ -86,40 +84,17 @@ class BilibiliPipeline(object):
                                                              item['video_view'], item['video_p'], item['p_list']))
 
     # bulletscreen
-    # def process_bs(self, item):
-    #     with open(self.bs_path + item['aid'] + '.csv', 'w', encoding='utf8') as f:
-    #         d = ET.fromstring(item['bullentscreen'])
-    #         for i in d:
-    #             if i.get('p') is not None:
-    #                 msg = i.text
-    #                 attr = i.get('p')
-    #                 message = {'msg': msg}
-    #                 f.write(attr + ',' + str(message) + '\n')
-    #
+    def process_bs(self, item):
+        with open(self.bs_path + item['aid'] + '.csv', 'a', buffering=-1, encoding='utf8') as f:
+            f.write(item['attr'] + ',' + str(item['msg']) + '\n')
+
     # # videocomment
-    # def process_vc(self, item):
-    #     with open(self.com_path + item['comment_aid'] + '.csv', 'a', encoding='utf8') as f:
-    #         text = json.loads(item['comments'])
-    #         if text['message'] == '0':
-    #             for i in range(20):
-    #                 try:
-    #                     mid = text['data']['replies'][i]['member']['mid']
-    #                     uname = text['data']['replies'][i]['member']['uname']
-    #                     sex = text['data']['replies'][i]['member']['sex']
-    #                     message = {'msg': text['data']['replies'][i]['content']['message']}
-    #                     like = text['data']['replies'][i]['like']
-    #                     floor = text['data']['replies'][i]['floor']
-    #                     date = time.strftime("%Y-%m-%d %H:%M:%S",
-    #                                          time.localtime(int(text['data']['replies'][i]['ctime'])))
-    #                     device = text['data']['replies'][i]['content']['device']
-    #                 except IndexError:
-    #                     break
-    #                 except Exception:
-    #                     break
-    #                 else:
-    #                     f.write(
-    #                         '{},{},{},{},{},{},{},{}\n'.format(floor, mid, uname, sex, device, like, str(message),
-    #                                                            date))
+    def process_vc(self, item):
+        with open(self.com_path + item['com_aid'] + '.csv', 'a', buffering=-1,encoding='utf8') as f:
+            f.write('{},{},{},{},{},{},{},{}\n'.format(item['com_floor'], item['com_mid'], item['com_uname'],
+                                                       item['com_sex'], item['com_device'], item['com_like'],
+                                                       str(item['com_message']),
+                                                       item['com_date']))
 
     def close_spider(self, spider):
         self.fl.close()
