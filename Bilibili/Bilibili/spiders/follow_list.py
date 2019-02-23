@@ -72,7 +72,7 @@ class FollowListSpider(scrapy.Spider):
         item['aid_mid'] = jsonpath.jsonpath(text, '$.data.vlist[*].mid')
         item['aid_length'] = jsonpath.jsonpath(text, '$.data.vlist[*].length')
         item['aid_created'] = jsonpath.jsonpath(text, '$.data.vlist[*].created')
-        item['aid_description'] = jsonpath.jsonpath(text, '$.data.vlist[*].description')
+        item['aid_description'] = map(self.dict, jsonpath.jsonpath(text, '$.data.vlist[*].description'))
         yield item
 
         for i in range(len(item['aid'])):
@@ -147,7 +147,7 @@ class FollowListSpider(scrapy.Spider):
                 item['com_mid'] = jsonpath.jsonpath(text, '$.data.replies[*].member.mid')
                 item['com_uname'] = jsonpath.jsonpath(text, '$.data.replies[*].member.uname')
                 item['com_sex'] = jsonpath.jsonpath(text, '$.data.replies[*].member.sex')
-                item['com_message'] = jsonpath.jsonpath(text, '$.data.replies[*].content.message')
+                item['com_message'] = map(dict, jsonpath.jsonpath(text, '$.data.replies[*].content.message'))
                 item['com_like'] = jsonpath.jsonpath(text, '$.data.replies[*].like')
                 item['com_floor'] = jsonpath.jsonpath(text, '$.data.replies[*].floor')
                 item['com_date'] = jsonpath.jsonpath(text, '$.data.replies[*].ctime')
@@ -163,3 +163,6 @@ class FollowListSpider(scrapy.Spider):
                     page=str(int(page) + 1), aid=response.meta['aid'])
                 yield scrapy.Request(next_url, callback=self.get_comment, cookies=self.cookie,
                                      meta={'aid': response.meta['aid']})
+
+    def dict(self, text):
+        return str({'msg': text})
