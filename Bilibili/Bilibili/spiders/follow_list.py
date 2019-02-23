@@ -125,14 +125,17 @@ class FollowListSpider(scrapy.Spider):
         xml_text = response.body
         item = BulletScreen()
         d = ET.fromstring(xml_text)
+        p_list = []
+        msg_list = []
         item['aid'] = aid
         for i in d:
             if i.get('p') is not None:
                 msg = i.text
-                item['attr'] = i.get('p')
-                item['msg'] = {'msg': msg}
-                yield item
-
+                p_list.append(i.get('p'))
+                msg_list.append({'msg': msg})
+        item['attr'] = p_list
+        item['msg'] = msg_list
+        yield item
     # 获取评论
     def get_comment(self, response):
         json_text = response.text

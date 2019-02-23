@@ -88,8 +88,12 @@ class BilibiliPipeline(object):
 
     # bulletscreen
     def process_bs(self, item):
-        with open(self.bs_path + 'aid' + item['aid'] + '.csv', 'a', buffering=-1, encoding='utf8') as f:
-            f.write(item['attr'] + ',' + str(item['msg']) + '\n')
+        csv_path = self.bs_path + 'aid' + item['aid'] + '.csv'
+        attr = pd.Series(item['attr'])
+        msg = pd.Series(item['msg'])
+
+        con = pd.concat([attr, msg], axis=1)
+        con.to_csv(csv_path, mode='a', index=False, header=0)
 
     # # videocomment
     def process_vc(self, item):
