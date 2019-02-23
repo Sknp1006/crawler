@@ -4,9 +4,9 @@
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-
+import random
 from scrapy import signals
-
+from .settings import USER_AGENT_LIST
 
 class BilibiliSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -101,3 +101,10 @@ class BilibiliDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+class RandomUserAgentMiddleware(object):
+    def process_request(self, request, spider):
+        rand_use = random.choice(USER_AGENT_LIST)
+        if rand_use:
+            request.headers.setdefault('User-Agent', rand_use)
+

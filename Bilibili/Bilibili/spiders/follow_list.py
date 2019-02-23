@@ -2,7 +2,6 @@
 import scrapy
 import json
 import jsonpath
-import time
 import re
 from math import ceil
 import xml.etree.cElementTree as ET
