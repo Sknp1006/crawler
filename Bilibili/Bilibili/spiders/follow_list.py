@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import json
+import jsonpath
 import time
 import re
 from math import ceil
@@ -40,60 +41,46 @@ class FollowListSpider(scrapy.Spider):
             if int(total) != 0:
                 item = FollowListItem()
                 for i in range(20):
-                    try:
-                        mid = str(text['data']['list'][i]['mid'])
-                        mid_name = text['data']['list'][i]['uname']
-                        mid_url = 'http://space.bilibili.com/{mid_num}/video'.format(mid_num=mid)
-                        item['mid'] = mid
-                        item['mid_url'] = mid_url
-                        item['mid_name'] = mid_name
-                    except IndexError:
-                        break
-                    except Exception:
-                        break
-                    else:
-                        yield item
-                        start_url = 'https://space.bilibili.com/ajax/member/getSubmitVideos?mid={mid}&pagesize=30&tid=0&page={page_num}'.format(
-                            mid=mid, page_num=1)
-                        yield scrapy.Request(start_url, callback=self.getSubmitVideos, cookies=self.cookie)
+                    item['mid'] = text['data']['list'][i]['mid']
+                    item['mid_url'] = 'http://space.bilibili.com/{mid_num}/video'.format(mid_num=item['mid'])
+                    item['mid_name'] = text['data']['list'][i]['uname']
+                    yield item
+
+                    start_url = 'https://space.bilibili.com/ajax/member/getSubmitVideos?mid={mid}&pagesize=30&tid=0&page={page_num}'.format(
+                        mid=item['mid'], page_num=1)
+                    yield scrapy.Request(start_url, callback=self.getSubmitVideos, cookies=self.cookie)
 
                 # 算出总页数以及当前页
-                total_page = ceil(total / 20)
-                cur_page = re.search(r'pn=(\d+)', response.url).group(1)
-                if int(cur_page) < int(total_page):
-                    next_urls = "http://api.bilibili.com/x/relation/followings?vmid={usr_mid}&pn={page_num}&ps=20". \
-                        format(usr_mid=self.usr_mid, page_num=str(int(cur_page) + 1))  # 返回json字符串
-                    yield scrapy.Request(next_urls, callback=self.parse, cookies=self.cookie)  # 到下一页
+            total_page = ceil(total / 20)
+            cur_page = re.search(r'pn=(\d+)', response.url).group(1)
+            if int(cur_page) < int(total_page):
+                next_urls = "http://api.bilibili.com/x/relation/followings?vmid={usr_mid}&pn={page_num}&ps=20". \
+                    format(usr_mid=self.usr_mid, page_num=str(int(cur_page) + 1))  # 返回json字符串
+                yield scrapy.Request(next_urls, callback=self.parse, cookies=self.cookie)  # 到下一页
 
     def getSubmitVideos(self, response):
         json_text = response.text
         text = json.loads(json_text)
-        vlist = text['data']['vlist']
         # 总页数
         total_page = text['data']['pages']
         # 当前页
         cur_page = re.search(r'page=(\d+)', response.url).group(1)
         item = GetSubmitVideos()
-        for i in range(30):
-            try:
-                item['aid'] = str(vlist[i]['aid'])
-                item['aid_url'] = 'https://www.bilibili.com/video/av{aid}'.format(aid=item['aid'])
-                item['aid_name'] = vlist[i]['title']
-                item['aid_author'] = vlist[i]['author']
-                item['aid_mid'] = str(vlist[i]['mid'])
-                item['aid_length'] = vlist[i]['length']
-                item['aid_created'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(int(vlist[i]['created'])))
-                item['aid_description'] = {'description': vlist[i]['description']}
-            except IndexError:
-                break
-            except Exception:
-                break
-            else:
-                yield item
+        item['aid'] = jsonpath.jsonpath(text, '$.data.vlist[*].aid')
+        # item['aid_url'] = 'https://www.bilibili.com/video/av{aid}'.format(aid=item['aid'])
+        item['aid_name'] = jsonpath.jsonpath(text, '$.data.vlist[*].title')
+        item['aid_author'] = jsonpath.jsonpath(text, '$.data.vlist[*].author')
+        item['aid_mid'] = jsonpath.jsonpath(text, '$.data.vlist[*].mid')
+        item['aid_length'] = jsonpath.jsonpath(text, '$.data.vlist[*].length')
+        item['aid_created'] = jsonpath.jsonpath(text, '$.data.vlist[*].created')
+        item['aid_description'] = jsonpath.jsonpath(text, '$.data.vlist[*].description')
+        yield item
 
-                start_url = 'https://api.bilibili.com/x/web-interface/view?aid=' + item['aid']
-                yield scrapy.Request(start_url, callback=self.videoInfos, cookies=self.cookie,
-                                     meta={'mid': item['aid_mid']})
+        for i in range(len(item['aid'])):
+            aid = item['aid'][i]
+            start_url = 'https://api.bilibili.com/x/web-interface/view?aid=' + str(aid)
+            yield scrapy.Request(start_url, callback=self.videoInfos, cookies=self.cookie,
+                                 meta={'mid': item['aid_mid'][0]})
         # 继续当前UP主的下一页
         if int(cur_page) < int(total_page):
             next_url = 'https://space.bilibili.com/ajax/member/getSubmitVideos?mid={mid}&pagesize=30&tid=0&page={page_num}'.format(
@@ -155,30 +142,22 @@ class FollowListSpider(scrapy.Spider):
             if text['data']['replies'] is not None:
                 item = VideoComment()
                 item['com_aid'] = response.meta['aid']
-                for i in range(20):
-                    try:
-                        item['com_mid'] = text['data']['replies'][i]['member']['mid']
-                        item['com_uname'] = text['data']['replies'][i]['member']['uname']
-                        item['com_sex'] = text['data']['replies'][i]['member']['sex']
-                        item['com_message'] = {'msg': text['data']['replies'][i]['content']['message']}
-                        item['com_like'] = text['data']['replies'][i]['like']
-                        item['com_floor'] = text['data']['replies'][i]['floor']
-                        item['com_date'] = time.strftime("%Y-%m-%d %H:%M:%S",
-                                                         time.localtime(int(text['data']['replies'][i]['ctime'])))
-                        item['com_device'] = text['data']['replies'][i]['content']['device']
-                    except IndexError:
-                        break
-                    except Exception:
-                        break
-                    else:
-                        yield item
+                item['com_mid'] = jsonpath.jsonpath(text, '$.data.replies[*].member.mid')
+                item['com_uname'] = jsonpath.jsonpath(text, '$.data.replies[*].member.uname')
+                item['com_sex'] = jsonpath.jsonpath(text, '$.data.replies[*].member.sex')
+                item['com_message'] = jsonpath.jsonpath(text, '$.data.replies[*].content.message')
+                item['com_like'] = jsonpath.jsonpath(text, '$.data.replies[*].like')
+                item['com_floor'] = jsonpath.jsonpath(text, '$.data.replies[*].floor')
+                item['com_date'] = jsonpath.jsonpath(text, '$.data.replies[*].ctime')
+                item['com_device'] = jsonpath.jsonpath(text, '$.data.replies[*].content.device')
+                yield item
 
-                # 获取下一页
-                page = text['data']['page']['num']
-                count = text['data']['page']['count']
-                total_page = ceil(int(count) / 20)
-                if int(page) < int(total_page):
-                    next_url = "https://api.bilibili.com/x/v2/reply?jsonp=jsonp&pn={page}&type=1&oid={aid}&nohot=1".format(
-                        page=str(int(page) + 1), aid=response.meta['aid'])
-                    yield scrapy.Request(next_url, callback=self.get_comment, cookies=self.cookie,
-                                         meta={'aid': response.meta['aid']})
+            # 获取下一页
+            page = text['data']['page']['num']
+            count = text['data']['page']['count']
+            total_page = ceil(int(count) / 20)
+            if int(page) < int(total_page):
+                next_url = "https://api.bilibili.com/x/v2/reply?jsonp=jsonp&pn={page}&type=1&oid={aid}&nohot=1".format(
+                    page=str(int(page) + 1), aid=response.meta['aid'])
+                yield scrapy.Request(next_url, callback=self.get_comment, cookies=self.cookie,
+                                     meta={'aid': response.meta['aid']})
