@@ -147,7 +147,7 @@ class FollowListSpider(scrapy.Spider):
                 item['com_mid'] = jsonpath.jsonpath(text, '$.data.replies[*].member.mid')
                 item['com_uname'] = jsonpath.jsonpath(text, '$.data.replies[*].member.uname')
                 item['com_sex'] = jsonpath.jsonpath(text, '$.data.replies[*].member.sex')
-                item['com_message'] = map(dict, jsonpath.jsonpath(text, '$.data.replies[*].content.message'))
+                item['com_message'] = map(self.dict, jsonpath.jsonpath(text, '$.data.replies[*].content.message'))
                 item['com_like'] = jsonpath.jsonpath(text, '$.data.replies[*].like')
                 item['com_floor'] = jsonpath.jsonpath(text, '$.data.replies[*].floor')
                 item['com_date'] = jsonpath.jsonpath(text, '$.data.replies[*].ctime')
