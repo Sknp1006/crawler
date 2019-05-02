@@ -17,17 +17,9 @@ class FollowListSpider(scrapy.Spider):
 
     def __init__(self):
         # 你的用户ID
-        self.usr_mid = '66124873'
+        self.usr_mid = '#你的id号#'
         # 你的登录之后的cookie
-        self.cookie = {'buvid3': '20D00332-7A00-4BD3-B5FC-22CDEC541BB081657infoc',
-                       ' UM_distinctid': '168e761892733-0d0318551f07ba8-11666e4a-1fa400-168e76189293f',
-                       ' LIVE_BUVID': 'AUTO4215500721154664', ' sid': '997kryc7',
-                       ' bp_t_offset_66124873': '222961781089934882', ' stardustvideo': '1', ' CURRENT_FNVAL': '16',
-                       ' finger': '964b42c0', ' im_notify_type_66124873': '0', ' rpdid': 'psspqpmomdosswsswmiw',
-                       ' CURRENT_QUALITY': '74', ' fts': '1550551558', ' DedeUserID': '66124873',
-                       ' DedeUserID__ckMd5': '769f4fc4522a775e', ' SESSDATA': 'ac3757d4%2C1553342190%2Ce54c3921',
-                       ' bili_jct': 'a088b046752e5f495937bc1db2748593',
-                       ' _dfcaptcha': '4c0074e39591cf16656ff5730fb80086'}
+        self.cookie = {'#你的cookie#'}
         # 你的个人空间地址
         self.start_urls = ["http://api.bilibili.com/x/relation/followings?vmid={usr_mid}&pn={page_num}&ps=20". \
                                format(usr_mid=self.usr_mid, page_num=1)]
