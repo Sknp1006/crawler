@@ -115,6 +115,8 @@ venv.bak/
 *.iml
 out
 gen
+
+# MYIGNORE
 Bilibili/bulletscreen/
 *.csv
 Bilibili/comment/
@@ -136,4 +138,5 @@ Bilibili_comment/Bilibili_comment/spiders/__init__.py
 Bilibili_comment/Bilibili_comment/spiders/comment.py
 Bilibili_comment/scrapy.cfg
 Bilibili/Bilibili/spiders/__pycache__/follow_list.cpython-36.pyc
-log.txt
+
+AoiSolas/log.txt
