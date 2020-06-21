@@ -10,5 +10,21 @@
 ### 遇到的问题：
   * scrapy.Request与response.follow好像有性能上的差距，体现在使用follow的callback调用自己时，下载无法达到较高速度。  
   * 其次是用follow无法传递meta字典，我需要传递图片所在的分区名，例如：meinv
-
+### 一些参数：
+  1. 深度优先
+  >> DEPTH_PRIORITY = 0  
+  >> SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleLifoDiskQueue'  
+  >> SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.LifoMemoryQueue'  
   
+  2. 广度优先  
+  >> DEPTH_PRIORITY = 1  
+  >> SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'  
+  >> SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'  
+  
+  3. AutoThrottle extension  
+  >> AUTOTHROTTLE_ENABLED = True
+  >> AUTOTHROTTLE_START_DELAY = 0  
+  >> AUTOTHROTTLE_MAX_DELAY = 60  
+  >> AUTOTHROTTLE_TARGET_CONCURRENCY = 10.0  
+  >> AUTOTHROTTLE_DEBUG = False  
+  >> DOWNLOAD_DELAY = 0.1
