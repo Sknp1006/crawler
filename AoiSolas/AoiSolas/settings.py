@@ -58,7 +58,7 @@ NEWSPIDER_MODULE = 'AoiSolas.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 120
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
@@ -68,10 +68,9 @@ DOWNLOAD_DELAY = 0.1
 # CONCURRENT_REQUESTS_PER_IP = 16
 # LOG_LEVEL= 'DEBUG'
 #
-LOG_STDOUT = True
 LOG_FILE = 'log.txt'
 # Disable cookies (enabled by default)
-# COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 # TELNETCONSOLE_ENABLED = False
@@ -127,3 +126,13 @@ IMAGES_EXPIRES = 30
 # HTTPCACHE_DIR = 'httpcache'
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+# 后进先出，深度优先
+DEPTH_PRIORITY = 0
+SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleLifoDiskQueue'
+SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.LifoMemoryQueue'
+
+# 先进先出，广度优先
+# DEPTH_PRIORITY = 1
+# SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
+# SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'

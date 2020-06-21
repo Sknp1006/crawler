@@ -28,7 +28,7 @@ class MyImagesPipeline(ImagesPipeline):
 
     def get_media_requests(self, item, info):
         for image_url in item['ImgUrl']:
-            yield Request(image_url, meta={'item': item['name'], 'group':item['group']})
+            yield Request(image_url, meta={'item': item['name'], 'group': item['group']})
 
     def file_path(self, request, response=None, info=None):
         name = request.meta['item']
