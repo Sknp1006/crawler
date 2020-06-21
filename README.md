@@ -3,4 +3,9 @@
 ## BiliBili crawler
 项目描述：这是一个用于抓取哔哩哔哩视频弹幕和评论的爬虫，抓取范围是自己关注列表里全部UP主的视频。  
 ## AoiSloa crawler
-项目描述：绅士必备，妹子图爬虫( •̀ ω •́ )✧
+### 项目描述：  
+  * 绅士必备，妹子图爬虫( •̀ ω •́ )✧  
+### 遇到的问题：
+  * scrapy.Request与response.follow好像有性能上的差距，体现在使用follow的callback调用自己时，下载无法达到较高速度。  
+  * 其次是用follow无法传递meta字典  
+  
